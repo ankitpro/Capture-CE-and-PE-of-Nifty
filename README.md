@@ -1,15 +1,16 @@
 # Capture-CE-and-PE-of-Nifty
 > It capture Open Interest, IV, Strike Price, Stock Price, Volume, Expiry.
 
-## Release History
+## File usage 
+   1. To make the best use of all the script copy all the files at one location and double click the .bat file to capture the data.
+   2. The data will be captured and saved in .csv format in the "current date folder" which is under data folder.
 
-* 0.1.1
-    * Updated the Readme File.
+### Release History
+
 * 0.1.0
-    * ADD: Added the flowchart.
+    * Updated the Readme File.
 * 0.0.1
     * Work in progress
 
 ## Meta
-
-Ankit Agarwal
+Ankit Agarwal [ankitagarwalpro@gmail.com]
