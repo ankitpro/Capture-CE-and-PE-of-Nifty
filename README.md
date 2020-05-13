@@ -7,6 +7,8 @@
 
 ### Release History
 
+* 0.1.1
+    * Added Random sleep time between 120 Sec to 300 Sec.
 * 0.1.0
     * Updated the Readme File.
 * 0.0.1
