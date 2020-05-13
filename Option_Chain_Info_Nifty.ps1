@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
     It captures Option data from Edelweiss for Nifty.
 
@@ -54,6 +54,11 @@ for($i=1; $i -le 7; $i++)
 $date = $date_IST.ToString("dd MMM yyyy")
 
 
+$random_number = Get-Random -Minimum 120 -Maximum 300
+
+# Added random sleep between 120 seconds to 300 seconds to avoid IP being blocked coz of scraping.
+Start-Sleep -Seconds $random_number
+
 
 #--------------------------[Script]------------------------------#
 
@@ -104,6 +109,6 @@ $objNotifyIcon = New-Object System.Windows.Forms.NotifyIcon
 $objNotifyIcon.Icon = $icon
 #$objNotifyIcon.BalloonTipIcon = "Warning" 
 $objNotifyIcon.BalloonTipText = "Data ready for Analysis" 
-$objNotifyIcon.BalloonTipTitle = "Data Captured for 15 Mins"
+$objNotifyIcon.BalloonTipTitle = "Data Captured for Nifty"
 $objNotifyIcon.Visible = $True 
 $objNotifyIcon.ShowBalloonTip(5000)
