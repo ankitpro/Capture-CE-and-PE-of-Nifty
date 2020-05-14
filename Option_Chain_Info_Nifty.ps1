@@ -41,6 +41,8 @@ $subfolder = $date_folder + "\15min"
 
 $5m_filename_ce = $subfolder + "\CE_" + $date_time_forFolder + ".csv"
 $5m_filename_pe = $subfolder + "\PE_" + $date_time_forFolder + ".csv"
+$5m_filename_complete = $subfolder + "\comp" + ".csv"
+
 
 
 ## Calculate the coming Thursday
@@ -94,20 +96,24 @@ $pe = $json.opChn.peQt
 $date_toadd = $date_IST.ToString("dd-MM-yyyy")
 $Time_toadd = $date_IST.ToString("hh:mm")
 
-
+$ce | Add-Member -Name Option -Value CE -MemberType NoteProperty
 $ce | Add-Member -Name Date -Value $date_toadd -MemberType NoteProperty 
 $ce | Add-Member -Name Time -Value $Time_toadd -MemberType NoteProperty 
 $ce | Add-Member -Name Expiry -Value $Exp_date -MemberType NoteProperty
+$pe | Add-Member -Name Option -Value PE -MemberType NoteProperty
 $pe | Add-Member -Name Datetime -Value $date_toadd -MemberType NoteProperty
 $pe | Add-Member -Name Expiry -Value $Exp_date -MemberType NoteProperty
 $pe | Add-Member -Name Time -Value $Time_toadd -MemberType NoteProperty 
 
-$ce = $ce | select Date, Time, trdSym, ltp, vol, chg, chgP, opInt, opIntChg, askivfut, askivspt, bidivfut, bidivspt, ltpivfut, ltpivspt, Expiry
-$pe = $pe | select Date, Time, trdSym, ltp, vol, chg, chgP, opInt, opIntChg, askivfut, askivspt, bidivfut, bidivspt, ltpivfut, ltpivspt, Expiry
+$ce = $ce | select Date, Time, trdSym, Option, ltp, vol, chg, chgP, opInt, opIntChg, askivfut, askivspt, bidivfut, bidivspt, ltpivfut, ltpivspt, Expiry
+$pe = $pe | select Date, Time, trdSym, Option, ltp, vol, chg, chgP, opInt, opIntChg, askivfut, askivspt, bidivfut, bidivspt, ltpivfut, ltpivspt, Expiry
 
 
 $ce | Export-CSV $5m_filename_ce -NoTypeInformation -Append
 $pe | Export-CSV $5m_filename_pe -NoTypeInformation -Append
+$ce | Export-CSV $5m_filename_complete -NoTypeInformation -Append
+$pe | Export-CSV  $5m_filename_complete -NoTypeInformation -Append
+
 
 write-host $5m_filename_ce
 write-host $5m_filename_pe
