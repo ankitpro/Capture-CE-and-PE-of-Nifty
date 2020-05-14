@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     It captures Option data from Edelweiss for Nifty.
 
@@ -14,7 +14,8 @@
 
 #--------------------------[Initialisation]------------------------------#
 
-$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+#$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+$scriptPath = "C:\Users\aar6b78\Documents\Project\AI ML\Stock Market Price Prediction\Option Chain\Powershell"
 $date_IST = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'India Standard Time')
 $url = "https://ewmw.edelweiss.in/api/Market/optionchainguest"
 $icon = $scriptPath + "\stock.ico"
@@ -47,15 +48,15 @@ for($i=1; $i -le 7; $i++)
 {        
     if($date_IST.AddDays($i).DayOfWeek -eq 'Thursday')
     {
-        $date_IST = $date_IST.AddDays($i)
+        $Exp_date = $date_IST.AddDays($i)
         break
     }
 }
-$date = $date_IST.ToString("dd MMM yyyy")
+$Exp_date = $date_IST.ToString("dd MMM yyyy")
 
 
 $random_number = Get-Random -Minimum 120 -Maximum 300
-
+write-host "Will sleep for " $random_number "Seconds"
 # Added random sleep between 120 seconds to 300 seconds to avoid IP being blocked coz of scraping.
 Start-Sleep -Seconds $random_number
 
@@ -79,7 +80,8 @@ $optionChain_nifty = Invoke-WebRequest -Uri $url `
   "Accept-Language"="en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7"
 } `
 -ContentType "application/json;charset=UTF-8" `
--Body "{`"exp`":`"$date`",`"aTyp`":`"OPTIDX`",`"uSym`":`"NIFTY`"}"
+#-Body "{`"exp`":`"$date`",`"aTyp`":`"OPTIDX`",`"uSym`":`"NIFTY`"}"
+-Body "{`"exp`":`"21 May 2020`",`"aTyp`":`"OPTIDX`",`"uSym`":`"NIFTY`"}"
  
 
 $json = $optionChain_nifty.Content| ConvertFrom-Json
@@ -87,13 +89,19 @@ $json = $optionChain_nifty.Content| ConvertFrom-Json
 $ce = $json.opChn.ceQt
 $pe = $json.opChn.peQt
 
-$ce | Add-Member -Name Datetime -Value $date_time -MemberType NoteProperty 
-$ce | Add-Member -Name Expiry -Value $date -MemberType NoteProperty
-$pe | Add-Member -Name Datetime -Value $date_time -MemberType NoteProperty
-$pe | Add-Member -Name Expiry -Value $date -MemberType NoteProperty
+$date_toadd = $date_IST.ToString("dd-MM-yyyy")
+$Time_toadd = $date_IST.ToString("hh:mm")
 
-$ce = $ce | select Datetime, trdSym, ltp, vol, chg, chgP, opInt, opIntChg, askivfut, askivspt, bidivfut, bidivspt, ltpivfut, ltpivspt, Expiry
-$pe = $pe | select Datetime, trdSym, ltp, vol, chg, chgP, opInt, opIntChg, askivfut, askivspt, bidivfut, bidivspt, ltpivfut, ltpivspt, Expiry
+
+$ce | Add-Member -Name Date -Value $date_toadd -MemberType NoteProperty 
+$ce | Add-Member -Name Time -Value $Time_toadd -MemberType NoteProperty 
+$ce | Add-Member -Name Expiry -Value $Exp_date -MemberType NoteProperty
+$pe | Add-Member -Name Datetime -Value $date_toadd -MemberType NoteProperty
+$pe | Add-Member -Name Expiry -Value $Exp_date -MemberType NoteProperty
+$pe | Add-Member -Name Time -Value $Time_toadd -MemberType NoteProperty 
+
+$ce = $ce | select Date, Time, trdSym, ltp, vol, chg, chgP, opInt, opIntChg, askivfut, askivspt, bidivfut, bidivspt, ltpivfut, ltpivspt, Expiry
+$pe = $pe | select Date, Time, trdSym, ltp, vol, chg, chgP, opInt, opIntChg, askivfut, askivspt, bidivfut, bidivspt, ltpivfut, ltpivspt, Expiry
 
 
 $ce | Export-CSV $5m_filename_ce -NoTypeInformation -Append
