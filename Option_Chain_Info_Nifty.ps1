@@ -63,9 +63,13 @@ Start-Sleep -Seconds $random_number
 
 #--------------------------[Script]------------------------------#
 
-$optionChain_nifty = Invoke-WebRequest -Uri $url `
--Method "POST" `
--Headers @{
+$body = @{
+    "exp" = "$Exp_date"
+    "aTyp" = "OPTIDX"
+    "uSym" = "NIFTY"
+}
+
+$Headers = @{
 "Pragma"="no-cache"
   "Cache-Control"="no-cache"
   "sec-ch-ua"="`"Google Chrome 81`""
@@ -76,13 +80,11 @@ $optionChain_nifty = Invoke-WebRequest -Uri $url `
   "Sec-Fetch-Site"="same-site"
   "Sec-Fetch-Mode"="cors"
   "Sec-Fetch-Dest"="empty"
-   "Accept-Encoding"="gzip, deflate, br"
+  "Accept-Encoding"="gzip, deflate, br"
   "Accept-Language"="en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7"
-} `
--ContentType "application/json;charset=UTF-8" `
-#-Body "{`"exp`":`"$date`",`"aTyp`":`"OPTIDX`",`"uSym`":`"NIFTY`"}"
--Body "{`"exp`":`"21 May 2020`",`"aTyp`":`"OPTIDX`",`"uSym`":`"NIFTY`"}"
- 
+};
+
+$optionChain_nifty = Invoke-WebRequest -Uri $url -Method POST -Headers $Headers -Body $body
 
 $json = $optionChain_nifty.Content| ConvertFrom-Json
 
