@@ -122,3 +122,5 @@ $objNotifyIcon.BalloonTipText = "Data ready for Analysis"
 $objNotifyIcon.BalloonTipTitle = "Data Captured for Nifty"
 $objNotifyIcon.Visible = $True 
 $objNotifyIcon.ShowBalloonTip(5000)
+
+#ref: https://www.edelweiss.in/market/nse-option-chain/optidx~nifty~2020-05-21?q=nifty%2021may2020%20option%20chain
