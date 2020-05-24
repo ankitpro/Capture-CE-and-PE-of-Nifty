@@ -1,0 +1,29 @@
+body {
+    position: relative;
+    font-size: 1.5rem;
+    line-height: 2.4rem;
+    font-family: "ProximaNova",arial,helvetica,clean,sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    color: #4d4d4d;
+}
+
+select#xLabels-select {
+    padding: 10px;  
+}
+
+input.csv-file {
+    padding: 20px;
+}
+
+p#selected-file-name {
+    padding: 20px;
+    margin: 0
+}
+
+.chart {
+    padding: 0 20px;
+    position: relative;
+    min-height: 400px;
+    min-width: 500px;
+}
